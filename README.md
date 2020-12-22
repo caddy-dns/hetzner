@@ -12,17 +12,17 @@ dns.providers.hetzner
 
 To use this module for the ACME DNS challenge, [configure the ACME issuer in your Caddy JSON](https://caddyserver.com/docs/json/apps/tls/automation/policies/issuer/acme/) like so:
 
-```
+```json
 {
-	"module": "acme",
-	"challenges": {
-		"dns": {
-			"provider": {
-				"name": "hetzner",
-				"api_token": "YOUR_HETZNER_AUTH_API_TOKEN"
-			}
-		}
-	}
+  "module": "acme",
+  "challenges": {
+    "dns": {
+      "provider": {
+        "name": "hetzner",
+	"api_token": "YOUR_HETZNER_AUTH_API_TOKEN"
+      }
+    }
+  }
 }
 ```
 
@@ -30,10 +30,10 @@ or with the Caddyfile:
 
 ```
 your.domain.com {
-	respond "Hello World"	# replace with whatever config you need...
-	tls {
-		dns hetzner {env.YOUR_HETZNER_AUTH_API_TOKEN}
-	}
+  respond "Hello World"	# replace with whatever config you need...
+  tls {
+    dns hetzner {env.YOUR_HETZNER_AUTH_API_TOKEN}
+  }
 }
 ```
 
