@@ -19,7 +19,7 @@ To use this module for the ACME DNS challenge, [configure the ACME issuer in you
     "dns": {
       "provider": {
         "name": "hetzner",
-	"api_token": "YOUR_HETZNER_AUTH_API_TOKEN"
+        "api_token": "YOUR_HETZNER_AUTH_API_TOKEN"
       }
     }
   }
