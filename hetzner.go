@@ -21,6 +21,14 @@ func (Provider) CaddyModule() caddy.ModuleInfo {
 	}
 }
 
+// Before using the provider config, resolve placeholders in the API token.
+// Implements caddy.Provisioner.
+func (p *Provider) Provision(ctx caddy.Context) error {
+	repl := caddy.NewReplacer()
+	p.Provider.AuthAPIToken = repl.ReplaceAll(p.Provider.AuthAPIToken, "")
+	return nil
+}
+
 // UnmarshalCaddyfile sets up the DNS provider from Caddyfile tokens. Syntax:
 //
 // hetzner [<api_token>] {
@@ -28,10 +36,9 @@ func (Provider) CaddyModule() caddy.ModuleInfo {
 // }
 //
 func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
-	repl := caddy.NewReplacer()
 	for d.Next() {
 		if d.NextArg() {
-			p.Provider.AuthAPIToken = repl.ReplaceAll(d.Val(), "")
+			p.Provider.AuthAPIToken = d.Val()
 		}
 		if d.NextArg() {
 			return d.ArgErr()
@@ -42,7 +49,7 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 				if p.Provider.AuthAPIToken != "" {
 					return d.Err("API token already set")
 				}
-				p.Provider.AuthAPIToken = repl.ReplaceAll(d.Val(), "")
+				p.Provider.AuthAPIToken = d.Val()
 				if d.NextArg() {
 					return d.ArgErr()
 				}
@@ -57,5 +64,8 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	return nil
 }
 
-// Interface guard
-var _ caddyfile.Unmarshaler = (*Provider)(nil)
+// Interface guards
+var (
+	_ caddyfile.Unmarshaler = (*Provider)(nil)
+	_ caddy.Provisioner     = (*Provider)(nil)
+)
