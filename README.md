@@ -1,11 +1,11 @@
-# Hetzner module for Caddy
+# Vercel module for Caddy
 
-This package contains a DNS provider module for [Caddy](https://github.com/caddyserver/caddy). It can be used to manage DNS records with Hetzner accounts.
+This package contains a DNS provider module for [Caddy](https://github.com/caddyserver/caddy). It can be used to manage DNS records with Vercel accounts.
 
 ## Caddy module name
 
 ```
-dns.providers.hetzner
+dns.providers.vercel
 ```
 
 ## Config examples
@@ -18,8 +18,8 @@ To use this module for the ACME DNS challenge, [configure the ACME issuer in you
   "challenges": {
     "dns": {
       "provider": {
-        "name": "hetzner",
-        "api_token": "YOUR_HETZNER_AUTH_API_TOKEN"
+        "name": "vercel",
+        "api_token": "YOUR_VERCEL_AUTH_API_TOKEN"
       }
     }
   }
@@ -32,13 +32,13 @@ or with the Caddyfile:
 your.domain.com {
   respond "Hello World"	# replace with whatever config you need...
   tls {
-    dns hetzner {env.YOUR_HETZNER_AUTH_API_TOKEN}
+    dns vercel {env.YOUR_HETZNER_AUTH_API_TOKEN}
   }
 }
 ```
 
-You can replace `{env.YOUR_HETZNER_AUTH_API_TOKEN}` with the actual auth token if you prefer to put it directly in your config instead of an environment variable.
+You can replace `{env.YOUR_VERCEL_AUTH_API_TOKEN}` with the actual auth token if you prefer to put it directly in your config instead of an environment variable.
 
 ## Authenticating
 
-See [the associated README in the libdns package](https://github.com/libdns/hetzner#authenticating) for important information about credentials.
+See [the associated README in the fairhat/libdns-vercel package](https://github.com/fairhat/libdns-vercel#authenticating) for important information about credentials.

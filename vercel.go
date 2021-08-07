@@ -1,13 +1,13 @@
-package hetzner
+package vercel
 
 import (
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/caddyconfig/caddyfile"
-	"github.com/libdns/hetzner"
+	"github.com/fairhat/libdns-vercel"
 )
 
 // Provider wraps the provider implementation as a Caddy module.
-type Provider struct{ *hetzner.Provider }
+type Provider struct{ *vercel.Provider }
 
 func init() {
 	caddy.RegisterModule(Provider{})
@@ -16,8 +16,8 @@ func init() {
 // CaddyModule returns the Caddy module information.
 func (Provider) CaddyModule() caddy.ModuleInfo {
 	return caddy.ModuleInfo{
-		ID:  "dns.providers.hetzner",
-		New: func() caddy.Module { return &Provider{new(hetzner.Provider)} },
+		ID:  "dns.providers.vercel",
+		New: func() caddy.Module { return &Provider{new(vercel.Provider)} },
 	}
 }
 
@@ -31,7 +31,7 @@ func (p *Provider) Provision(ctx caddy.Context) error {
 
 // UnmarshalCaddyfile sets up the DNS provider from Caddyfile tokens. Syntax:
 //
-// hetzner [<api_token>] {
+// vercel [<api_token>] {
 //     api_token <api_token>
 // }
 //
