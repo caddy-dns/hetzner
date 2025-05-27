@@ -10,20 +10,19 @@ import (
 type Provider struct{ *hetzner.Provider }
 
 func init() {
-	caddy.RegisterModule(Provider{})
+	caddy.RegisterModule(&Provider{})
 }
 
 // CaddyModule returns the Caddy module information.
-func (Provider) CaddyModule() caddy.ModuleInfo {
+func (*Provider) CaddyModule() caddy.ModuleInfo {
 	return caddy.ModuleInfo{
 		ID:  "dns.providers.hetzner",
 		New: func() caddy.Module { return &Provider{new(hetzner.Provider)} },
 	}
 }
 
-// Before using the provider config, resolve placeholders in the API token.
-// Implements caddy.Provisioner.
-func (p *Provider) Provision(ctx caddy.Context) error {
+// Provision implements the caddy.Provisioner interface.
+func (p *Provider) Provision(_ caddy.Context) error {
 	repl := caddy.NewReplacer()
 	p.Provider.AuthAPIToken = repl.ReplaceAll(p.Provider.AuthAPIToken, "")
 	return nil
@@ -31,10 +30,9 @@ func (p *Provider) Provision(ctx caddy.Context) error {
 
 // UnmarshalCaddyfile sets up the DNS provider from Caddyfile tokens. Syntax:
 //
-// hetzner [<api_token>] {
-//     api_token <api_token>
-// }
-//
+//	hetzner [<api_token>] {
+//	    api_token <api_token>
+//	}
 func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	for d.Next() {
 		if d.NextArg() {
