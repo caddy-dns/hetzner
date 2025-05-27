@@ -6,7 +6,7 @@ toolchain go1.24.2
 
 require (
 	github.com/caddyserver/caddy/v2 v2.10.0
-	github.com/libdns/hetzner v0.0.2-0.20240819042430-7c70fbb078a0
+	github.com/libdns/hetzner v1.0.0
 )
 
 require (
@@ -47,5 +47,3 @@ require (
 	golang.org/x/tools v0.33.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 )
-
-replace github.com/libdns/hetzner => github.com/Kugelschieber/libdns-hetzner v0.0.2
