@@ -33,11 +33,15 @@ your.domain.com {
   respond "Hello World"	# replace with whatever config you need...
   tls {
     dns hetzner {env.YOUR_HETZNER_AUTH_API_TOKEN}
+    propagation_delay 30s
   }
 }
 ```
 
 You can replace `{env.YOUR_HETZNER_AUTH_API_TOKEN}` with the actual auth token if you prefer to put it directly in your config instead of an environment variable.
+
+Setting `propagation_delay` to `30s` causes Caddy to wait for 30 seconds before starting the DNS TXT records propagation checks.
+This fixes a known issue caused by slow DNS propagation (see [#11](https://github.com/caddy-dns/hetzner/issues/11) for details).
 
 ## Authenticating
 
