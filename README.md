@@ -2,6 +2,9 @@
 
 This package contains a DNS provider module for [Caddy](https://github.com/caddyserver/caddy). It can be used to manage DNS records with Hetzner accounts.
 
+Version 2 of this module (`github.com/caddy-dns/hetzner/v2`) is designed for use with DNS zones managed in the Hetzner Console via the [Cloud DNS API](https://docs.hetzner.cloud/reference/cloud#dns).
+If your zone is still managed in the old DNS Console and has not yet been [migrated](https://docs.hetzner.com/networking/dns/migration-to-hetzner-console/process) to the new Hetzner Console, please use version 1 of the module (`github.com/caddy-dns/hetzner`).
+
 ## Caddy module name
 
 ```

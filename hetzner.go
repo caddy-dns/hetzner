@@ -3,7 +3,7 @@ package hetzner
 import (
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/caddyconfig/caddyfile"
-	"github.com/libdns/hetzner"
+	"github.com/libdns/hetzner/v2"
 )
 
 // Provider wraps the provider implementation as a Caddy module.
@@ -24,7 +24,7 @@ func (*Provider) CaddyModule() caddy.ModuleInfo {
 // Provision implements the caddy.Provisioner interface.
 func (p *Provider) Provision(_ caddy.Context) error {
 	repl := caddy.NewReplacer()
-	p.Provider.AuthAPIToken = repl.ReplaceAll(p.Provider.AuthAPIToken, "")
+	p.Provider.APIToken = repl.ReplaceAll(p.Provider.APIToken, "")
 	return nil
 }
 
@@ -36,7 +36,7 @@ func (p *Provider) Provision(_ caddy.Context) error {
 func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	for d.Next() {
 		if d.NextArg() {
-			p.Provider.AuthAPIToken = d.Val()
+			p.Provider.APIToken = d.Val()
 		}
 		if d.NextArg() {
 			return d.ArgErr()
@@ -44,10 +44,10 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 		for nesting := d.Nesting(); d.NextBlock(nesting); {
 			switch d.Val() {
 			case "api_token":
-				if p.Provider.AuthAPIToken != "" {
+				if p.Provider.APIToken != "" {
 					return d.Err("API token already set")
 				}
-				p.Provider.AuthAPIToken = d.Val()
+				p.Provider.APIToken = d.Val()
 				if d.NextArg() {
 					return d.ArgErr()
 				}
@@ -56,7 +56,7 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 			}
 		}
 	}
-	if p.Provider.AuthAPIToken == "" {
+	if p.Provider.APIToken == "" {
 		return d.Err("missing API token")
 	}
 	return nil
