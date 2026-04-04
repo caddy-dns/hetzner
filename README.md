@@ -1,6 +1,6 @@
 # Hetzner Module for Caddy
 
-This package contains a DNS provider module for [Caddy](https://github.com/caddyserver/caddy). It manages DNS records for the Hetzner Console using the Cloud DNS API (https://docs.hetzner.cloud/reference/cloud#dns).
+This package contains a DNS provider module for [Caddy](https://github.com/caddyserver/caddy). It manages DNS records for the Hetzner Console using the [Cloud DNS API](https://docs.hetzner.cloud/reference/cloud#dns).
 
 ## Caddy Module Name
 
