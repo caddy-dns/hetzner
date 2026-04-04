@@ -1,51 +1,48 @@
-# Hetzner module for Caddy
+# Hetzner Module for Caddy
 
-This package contains a DNS provider module for [Caddy](https://github.com/caddyserver/caddy). It can be used to manage DNS records with Hetzner accounts.
+This package contains a DNS provider module for [Caddy](https://github.com/caddyserver/caddy). It manages DNS records for the Hetzner Console using the Cloud DNS API (https://docs.hetzner.cloud/reference/cloud#dns).
 
-Version 2 of this module (`github.com/caddy-dns/hetzner/v2`) is designed for use with DNS zones managed in the Hetzner Console via the [Cloud DNS API](https://docs.hetzner.cloud/reference/cloud#dns).
-If your zone is still managed in the old DNS Console and has not yet been [migrated](https://docs.hetzner.com/networking/dns/migration-to-hetzner-console/process) to the new Hetzner Console, please use version 1 of the module (`github.com/caddy-dns/hetzner`).
-
-## Caddy module name
+## Caddy Module Name
 
 ```
 dns.providers.hetzner
 ```
 
-## Config examples
+## Configuration
 
-To use this module for the ACME DNS challenge, [configure the ACME issuer in your Caddy JSON](https://caddyserver.com/docs/json/apps/tls/automation/policies/issuer/acme/) like so:
+To use this module for the ACME DNS challenge, configure the [ACME issuer](https://caddyserver.com/docs/json/apps/tls/automation/policies/issuer/acme/) in your Caddy JSON as follows:
 
 ```json
 {
-  "module": "acme",
-  "challenges": {
-    "dns": {
-      "provider": {
-        "name": "hetzner",
-        "api_token": "YOUR_HETZNER_AUTH_API_TOKEN"
-      }
+    "module": "acme",
+    "challenges": {
+        "dns": {
+            "provider": {
+                "name": "hetzner",
+                "api_token": "YOUR_HETZNER_AUTH_API_TOKEN"
+            }
+        }
     }
-  }
 }
 ```
 
-or with the Caddyfile:
+Or in the Caddyfile:
 
 ```
 your.domain.com {
-  respond "Hello World"	# replace with whatever config you need...
-  tls {
-    dns hetzner {env.YOUR_HETZNER_AUTH_API_TOKEN}
-    propagation_delay 30s
-  }
+    respond "Hello World" # Replace with whatever config you need...
+    
+    tls {
+        dns hetzner {env.YOUR_HETZNER_AUTH_API_TOKEN}
+        propagation_delay 30s
+    }
 }
 ```
 
-You can replace `{env.YOUR_HETZNER_AUTH_API_TOKEN}` with the actual auth token if you prefer to put it directly in your config instead of an environment variable.
+If you prefer to put the actual auth token directly in your config instead of an environment variable, you can replace `{env.YOUR_HETZNER_AUTH_API_TOKEN}` with it.
 
-Setting `propagation_delay` to `30s` causes Caddy to wait for 30 seconds before starting the DNS TXT records propagation checks.
-This fixes a known issue caused by slow DNS propagation (see [#11](https://github.com/caddy-dns/hetzner/issues/11) for details).
+Setting propagation_delay to 30s causes Caddy to wait 30 seconds before starting the DNS TXT record propagation checks.  This resolves an issue that was occurring due to slow DNS propagation (see issue [#11](https://github.com/caddy-dns/hetzner/issues/11) for details).
 
-## Authenticating
+## Authentication
 
-See [the associated README in the libdns package](https://github.com/libdns/hetzner#authenticating) for important information about credentials.
+For important information about credentials, see the associated [README](https://github.com/libdns/hetzner#authenticating) in the libdns package.
