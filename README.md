@@ -31,7 +31,7 @@ the list
 
 Or in the Caddyfile:
 
-```
+```Caddyfile
 # For all apps
 {
     acme_dns hetzner {env.YOUR_HETZNER_AUTH_API_TOKEN}
