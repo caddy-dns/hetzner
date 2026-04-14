@@ -10,16 +10,19 @@ dns.providers.hetzner
 
 ## Configuration
 
-To use this module for the ACME DNS challenge, configure the [ACME issuer](https://caddyserver.com/docs/json/apps/tls/automation/policies/issuer/acme/) in your Caddy JSON as follows:
+To use this module inside your Caddy JSON config, append the JSON object provided below to
+the list
+[`apps.tls.automation.policies.issuers`](https://caddyserver.com/docs/json/apps/tls/automation/policies/issuers/acme):
 
 ```json
 {
     "module": "acme",
     "challenges": {
         "dns": {
+            "propagation_delay": 30000000000,
             "provider": {
-                "name": "hetzner",
-                "api_token": "YOUR_HETZNER_AUTH_API_TOKEN"
+                "auth_api_token": "YOUR_HETZNER_AUTH_API_TOKEN",
+                "name": "hetzner"
             }
         }
     }
@@ -29,9 +32,15 @@ To use this module for the ACME DNS challenge, configure the [ACME issuer](https
 Or in the Caddyfile:
 
 ```
+# For all apps
+{
+    acme_dns hetzner {env.YOUR_HETZNER_AUTH_API_TOKEN}
+}
+
+# For an individual app
 your.domain.com {
     respond "Hello World" # Replace with whatever config you need...
-    
+
     tls {
         dns hetzner {env.YOUR_HETZNER_AUTH_API_TOKEN}
         propagation_delay 30s
