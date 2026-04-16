@@ -10,13 +10,14 @@ dns.providers.hetzner
 
 ## Configuration
 
-To use this module for the ACME DNS challenge, configure the [ACME issuer](https://caddyserver.com/docs/json/apps/tls/automation/policies/issuer/acme/) in your Caddy JSON as follows:
+To use this module for the ACME DNS challenge, configure the [ACME issuer](https://caddyserver.com/docs/json/apps/tls/automation/policies/issuers/acme) in your Caddy JSON as follows:
 
 ```json
 {
     "module": "acme",
     "challenges": {
         "dns": {
+            "propagation_delay": "30s",
             "provider": {
                 "name": "hetzner",
                 "api_token": "YOUR_HETZNER_AUTH_API_TOKEN"
@@ -28,14 +29,22 @@ To use this module for the ACME DNS challenge, configure the [ACME issuer](https
 
 Or in the Caddyfile:
 
-```
+```Caddyfile
 your.domain.com {
-    respond "Hello World" # Replace with whatever config you need...
-    
+    respond "Hello World"
+
     tls {
         dns hetzner {env.YOUR_HETZNER_AUTH_API_TOKEN}
         propagation_delay 30s
     }
+}
+```
+
+The Hetzner plugin can also be configured globally:
+
+```Caddyfile
+{
+    acme_dns hetzner {env.YOUR_HETZNER_AUTH_API_TOKEN}
 }
 ```
 
@@ -45,4 +54,16 @@ Setting propagation_delay to 30s causes Caddy to wait 30 seconds before starting
 
 ## Authentication
 
-For important information about credentials, see the associated [README](https://github.com/libdns/hetzner#authenticating) in the libdns package.
+For information about credentials, see the associated [README](https://github.com/libdns/hetzner#authenticating) in the libdns package.
+
+## Building
+
+To add this module to Caddy, go to the download page and add the `hetzner` module or build Caddy using `xcaddy` or `caddy add-package`.
+
+```
+# Using xcaddy
+xcaddy build --with github.com/caddy-dns/hetzner/v2
+
+# Using caddy add-package
+caddy add-package github.com/caddy-dns/hetzner@v2.0.0
+```
