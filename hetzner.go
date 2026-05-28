@@ -10,7 +10,7 @@ import (
 type Provider struct{ *hetzner.Provider }
 
 func init() {
-	caddy.RegisterModule(&Provider{})
+	caddy.RegisterModule(new(Provider))
 }
 
 // CaddyModule returns the Caddy module information.
